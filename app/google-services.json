@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "968010520774",
-    "project_id": "francoissynoptic",
-    "storage_bucket": "francoissynoptic.appspot.com"
+    "project_number": "1071559917229",
+    "project_id": "synopticmad",
+    "storage_bucket": "synopticmad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:968010520774:android:6b9f52ec7de02a4c21dfc7",
+        "mobilesdk_app_id": "1:1071559917229:android:aa926033e65473484c5024",
         "android_client_info": {
           "package_name": "com.example.francoissynoptic"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCtzF3wOCSCvonlpQOUokBxctu10auD4m0"
+          "current_key": "AIzaSyCZ8O0us5DJpX-nrPRvDU-o__xqkAWvc3g"
         }
       ],
       "services": {

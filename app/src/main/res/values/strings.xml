@@ -3,6 +3,9 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
-    <string name="widget_preferences_file" />
-    <string name="pref_selected_city_key" />
+    <string name="widget_preferences_file">widget_preferences</string>
+    <string name="pref_selected_city_key">selected_city</string>
+    <string name="error_fetching_weather" />
+    <string name="temperature_format">%1$d°C</string>
+    <string name="default_notification_channel_id" translatable="false">123</string>
 </resources>

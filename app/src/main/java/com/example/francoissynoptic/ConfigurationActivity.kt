@@ -5,9 +5,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+
 
 class ConfigurationActivity : AppCompatActivity() {
 
@@ -15,8 +17,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.widget)
-
+        setContentView(R.layout.activity_configuration)
         intent.extras?.also { extras ->
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
@@ -27,42 +28,56 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         val cities = listOf("Valletta", "Paris", "Rome")
-        val listView: ListView = findViewById<ListView>(R.id.city_list).apply {
-            adapter = ArrayAdapter(this@ConfigurationActivity, android.R.layout.simple_list_item_1, cities)
-            setOnItemClickListener { _, _, position, _ ->
-                val selectedCity = cities[position]
+        val listView: ListView = findViewById(R.id.city_list)
+        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, cities)
 
-                saveSelectedCityToSharedPreferences(selectedCity)
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedCity = cities[position]
+            Log.d("----Selected City----", selectedCity)
 
-                updateWidget(selectedCity)
+            saveSelectedCityToSharedPreferences(selectedCity)
 
-                setResult(RESULT_OK, Intent().apply {
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                })
-                finish()
-            }
+            updateWidget(this, appWidgetId, selectedCity)
+
+            setResult(RESULT_OK, Intent().apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            })
+            finish()
         }
     }
 
     private fun saveSelectedCityToSharedPreferences(city: String) {
-        getSharedPreferences(getString(R.string.widget_preferences_file), Context.MODE_PRIVATE).edit().apply {
-            putString(getString(R.string.pref_selected_city_key) + "_$appWidgetId", city)
-            apply()
-        }
+        val prefs = getSharedPreferences(getString(R.string.widget_preferences_file), Context.MODE_PRIVATE)
+        prefs.edit().putString(getString(R.string.pref_selected_city_key) + "_$appWidgetId", city).apply()
+        Log.d("SharedPreferences", "Selected city saved: $city")
     }
 
-    private fun updateWidget(selectedCity: String) {
-        val appWidgetManager = AppWidgetManager.getInstance(this)
-        val widget = ComponentName(this, WidgetWidgetProvider::class.java)
-        val ids = appWidgetManager.getAppWidgetIds(widget)
+    companion object {
+        private fun saveSelectedCityToSharedPreferences(context: Context, appWidgetId: Int, city: String) {
+            val prefs = context.getSharedPreferences(context.getString(R.string.widget_preferences_file), Context.MODE_PRIVATE)
+            prefs.edit().putString(context.getString(R.string.pref_selected_city_key) + "_$appWidgetId", city).apply()
+            Log.d("SharedPreferences edit key", "Selected city saved: ${context.getString(R.string.pref_selected_city_key) + "_$appWidgetId"}")
+        }
 
-        ids.forEach { id ->
-            val intent = Intent(this, WidgetWidgetProvider::class.java).apply {
-                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(id))
-                putExtra("EXTRA_CITY_NAME", selectedCity) // You can pass the selected city as an extra
+        fun updateWidget(context: Context, appWidgetId: Int, selectedCity: String) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val widget = ComponentName(context, WidgetWidgetProvider::class.java)
+            val ids = appWidgetManager.getAppWidgetIds(widget)
+
+            ids.forEach { id ->
+                val intent = Intent(context, WidgetWidgetProvider::class.java).apply {
+                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(id))
+                    putExtra("EXTRA_CITY_NAME", selectedCity)
+                }
+                context.sendBroadcast(intent)
             }
-            sendBroadcast(intent)
+
+            // Logs left here for proof of testing purposes
+            Log.d("city in updateWidget", selectedCity)
+            Log.d("appwidgetId in updateWidget", appWidgetId.toString())
+            Log.d("context in updateWidget", context.toString())
+            saveSelectedCityToSharedPreferences(context, appWidgetId, selectedCity)
         }
     }
 }

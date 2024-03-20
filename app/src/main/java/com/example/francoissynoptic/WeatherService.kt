@@ -1,14 +1,15 @@
 package com.example.francoissynoptic.network
 
+import com.google.gson.annotations.SerializedName
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 data class WeatherData(
-    val temperature: String,
-    val weatherStatus: String,
-    val locationName: String
+    @SerializedName("name") val name: String,
+    @SerializedName("temp") val temp: Int,
+    @SerializedName("condition") val condition: String
 )
 
 interface WeatherService {

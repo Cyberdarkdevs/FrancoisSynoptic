@@ -1,53 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/city_name"
-        android:layout_width="wrap_content"
+    <!-- Weather Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="City Name"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="24sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/temperature"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City Name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temperature"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/weather_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weather Status"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <!-- Battery Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/city_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Temperature"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20sp" />
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/weather_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/temperature"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Weather Status"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/battery_icon"
+            android:layout_width="115dp"
+            android:layout_height="155dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/fully_charged" />
 
+    </LinearLayout>
+
+    <!-- Extreme Weather Warning -->
     <TextView
         android:id="@+id/extreme_weather_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/weather_status"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         android:text="Extreme weather warning!"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/holo_red_light"
         android:textSize="20sp"
         android:visibility="gone" /> <!-- Initially set to gone -->
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.francoissynoptic">
@@ -16,6 +15,7 @@
         android:theme="@style/Theme.FrancoisSynoptic"
         tools:targetApi="31">
 
+        <!-- Widget Provider -->
         <receiver
             android:name=".WidgetWidgetProvider"
             android:exported="false">
@@ -27,13 +27,18 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver android:name=".ExtremeWeatherBroadcastReceiver"
-            android:exported="true">
+        <!-- Battery Broadcast Receiver -->
+        <receiver
+            android:name=".BatteryBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="EXTREME_WEATHER_ALERT" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
             </intent-filter>
         </receiver>
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -43,23 +48,17 @@
             </intent-filter>
         </activity>
 
+        <!-- Configuration Activity -->
         <activity
             android:name=".ConfigurationActivity"
             android:exported="true">
+            <!-- This activity does not need an intent-filter unless it's another entry point. -->
         </activity>
 
-        <service
-            android:name=".WeatherAlertMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
+        <!-- Define a default notification channel -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
 
     </application>
 

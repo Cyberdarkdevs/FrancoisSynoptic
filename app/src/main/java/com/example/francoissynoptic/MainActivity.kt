@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     private var selectedCity: String = "Valletta" // Default city
+    private val newBattery = NewBattery()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         updateButton.setOnClickListener {
             ConfigurationActivity.updateWidget(this, AppWidgetManager.INVALID_APPWIDGET_ID, selectedCity)
         }
+
+        // Start the battery update timer
+        newBattery.startBatteryUpdateTimer(this)
 
     }
 }
